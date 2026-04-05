@@ -12,6 +12,7 @@
             --text-muted: #8b949e;
             --accent-color: #58a6ff;
             --border-color: #30363d;
+            --glow-color: rgba(88, 166, 255, 0.3);
         }
 
         body {
@@ -21,6 +22,7 @@
             padding: 0;
             background-color: var(--bg-color);
             color: var(--text-main);
+            overflow-x: hidden;
         }
 
         /* Layout & Containers */
@@ -36,6 +38,7 @@
             padding-bottom: 2rem;
             margin-bottom: 2rem;
             text-align: left;
+            padding-top: 5vh;
         }
         
         header h1 {
@@ -43,6 +46,12 @@
             margin: 0 0 0.5rem 0;
             color: #ffffff;
             letter-spacing: -1px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        /* Typing Animation for Subtitle */
+        .typing-container {
+            display: inline-block;
         }
 
         header .subtitle {
@@ -50,11 +59,28 @@
             color: var(--accent-color);
             font-size: 1.2rem;
             margin: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--accent-color);
+            width: 0;
+            animation: typing 2.5s steps(40, end) forwards, blink 0.75s step-end infinite;
+            animation-delay: 0.5s;
         }
 
-        /* Sections */
+        /* Sections & Scroll Reveal */
         section {
             margin-bottom: 3rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         h2 {
@@ -66,10 +92,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        p {
-            margin-bottom: 1rem;
         }
 
         /* Grid for Skills & Tech Stack */
@@ -84,12 +106,14 @@
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             border-radius: 6px;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: all 0.3s ease;
         }
 
+        /* Dynamic Hover Effects */
         .skill-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.02);
             border-color: var(--accent-color);
+            box-shadow: 0 8px 20px var(--glow-color);
         }
 
         .skill-card h3 {
@@ -112,6 +136,13 @@
             padding: 1.5rem;
             margin-bottom: 1rem;
             border-radius: 0 6px 6px 0;
+            transition: all 0.3s ease;
+        }
+
+        .item:hover {
+            transform: translateX(10px);
+            background-color: #1c2128;
+            box-shadow: -4px 0 15px var(--glow-color);
         }
 
         .item-header {
@@ -137,10 +168,11 @@
         a {
             color: var(--accent-color);
             text-decoration: none;
+            transition: text-shadow 0.3s ease;
         }
 
         a:hover {
-            text-decoration: underline;
+            text-shadow: 0 0 8px var(--accent-color);
         }
 
         /* Footer */
@@ -152,6 +184,21 @@
             border-top: 1px solid var(--border-color);
             margin-top: 3rem;
         }
+
+        /* Keyframes */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
     </style>
 </head>
 <body>
@@ -160,16 +207,18 @@
         
         <header>
             <h1>[Your Name]</h1>
-            <p class="subtitle">&gt; Future Electrical & Electronic Engineer | Deep-Tech Innovator</p>
+            <div class="typing-container">
+                <p class="subtitle">&gt; Future Electrical & Electronic Engineer | Deep-Tech Innovator</p>
+            </div>
         </header>
 
-        <section id="about">
+        <section id="about" class="reveal">
             <h2>⚛️ About Me</h2>
             <p>I am an aspiring engineer with a deep passion for theoretical physics, microelectronics, and integrated circuit (IC) design. My long-term vision is to bridge the gap between advanced hardware and real-world industrial applications.</p>
             <p>I am working toward becoming a technopreneur, with the goal of founding a deep-tech startup dedicated to designing specialized microchips. I want to build smaller, more powerful computational systems to automate critical industries like agriculture and logistics in Vietnam.</p>
         </section>
 
-        <section id="education-awards">
+        <section id="education-awards" class="reveal">
             <h2>🎓 Education & Achievements</h2>
             
             <div class="item">
@@ -200,7 +249,7 @@
             </div>
         </section>
 
-        <section id="technical-skills">
+        <section id="technical-skills" class="reveal">
             <h2>⚙️ Technical Stack & Focus Areas</h2>
             <div class="skills-grid">
                 <div class="skill-card">
@@ -233,7 +282,7 @@
             </div>
         </section>
 
-        <section id="projects-experience">
+        <section id="projects-experience" class="reveal">
             <h2>🚀 Projects & Experience</h2>
             
             <div class="item">
@@ -253,7 +302,7 @@
             </div>
         </section>
 
-        <section id="contact">
+        <section id="contact" class="reveal">
             <h2>📫 Connect</h2>
             <p>Always open to discussing quantum physics, microchip architecture, or analyzing Go (Cờ vây) board positions.</p>
             <ul style="color: var(--text-muted);">
@@ -269,5 +318,25 @@
 
     </div>
 
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Adjusts when the element triggers
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        // Trigger the function on initial load to show top elements
+        reveal();
+    </script>
+
 </body>
+</html>
 </html>
