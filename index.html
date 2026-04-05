@@ -12,11 +12,7 @@
             --text-muted: #8b949e;
             --accent-color: #58a6ff;
             --border-color: #30363d;
-            --glow-color: rgba(88, 166, 255, 0.3);
-            /* New shades for the generative mesh */
-            --mesh-color-1: rgba(88, 166, 255, 0.15);
-            --mesh-color-2: rgba(88, 166, 255, 0.08);
-            --mesh-color-3: rgba(88, 166, 255, 0.04);
+            --glow-color: rgba(88, 166, 255, 0.2);
         }
 
         body {
@@ -29,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* Generative Art Background Canvas */
+        /* Clean Particle Background */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -37,19 +33,17 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            pointer-events: none; /* Allows clicks through to links */
+            pointer-events: none;
         }
 
-        /* Layout & Containers */
         .container {
             max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
-            position: relative; /* Stays above canvas */
+            position: relative;
             z-index: 1;
         }
 
-        /* Header Section */
         header {
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 2rem;
@@ -66,7 +60,6 @@
             animation: fadeInDown 1s ease-out;
         }
 
-        /* Typing Animation for Subtitle */
         .typing-container {
             display: inline-block;
         }
@@ -84,7 +77,6 @@
             animation-delay: 0.5s;
         }
 
-        /* Sections & Scroll Reveal */
         section {
             margin-bottom: 3rem;
         }
@@ -111,7 +103,6 @@
             gap: 10px;
         }
 
-        /* Grid for Skills & Tech Stack */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -119,47 +110,18 @@
         }
 
         .skill-card {
-            background-color: rgba(22, 27, 34, 0.85); /* Transparent for mesh to show through */
+            background-color: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(4px);
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             border-radius: 6px;
             transition: all 0.3s ease;
-            position: relative; /* For data stream overlay */
-            overflow: hidden;
         }
 
-        /* Data Stream Overlay on Hover */
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(0deg, transparent 0%, rgba(88, 166, 255, 0.1) 50%, transparent 100%);
-            background-size: 100% 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .skill-card:hover::before {
-            opacity: 1;
-            animation: dataStream 0.5s linear infinite;
-        }
-
-        .skill-card h3, .skill-card ul {
-            position: relative;
-            z-index: 1; /* Content above data stream */
-        }
-
-        /* Hover Effects */
         .skill-card:hover {
             transform: translateY(-5px) scale(1.02);
             border-color: var(--accent-color);
-            box-shadow: 0 8px 20px var(--glow-color);
+            box-shadow: 0 8px 25px var(--glow-color);
         }
 
         .skill-card h3 {
@@ -175,9 +137,8 @@
             font-size: 0.95rem;
         }
 
-        /* Project & Timeline Items */
         .item {
-            background-color: rgba(22, 27, 34, 0.85); /* Transparent */
+            background-color: rgba(22, 27, 34, 0.85);
             backdrop-filter: blur(4px);
             border-left: 4px solid var(--accent-color);
             padding: 1.5rem;
@@ -189,7 +150,7 @@
         .item:hover {
             transform: translateX(10px);
             background-color: #1c2128;
-            box-shadow: -4px 0 15px var(--glow-color);
+            box-shadow: -4px 0 20px var(--glow-color);
         }
 
         .item-header {
@@ -211,7 +172,6 @@
             font-family: 'Courier New', Courier, monospace;
         }
 
-        /* Links */
         a {
             color: var(--accent-color);
             text-decoration: none;
@@ -222,7 +182,6 @@
             text-shadow: 0 0 8px var(--accent-color);
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 2rem 0;
@@ -232,7 +191,6 @@
             margin-top: 3rem;
         }
 
-        /* Keyframes */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -245,11 +203,6 @@
 
         @keyframes blink {
             50% { border-color: transparent; }
-        }
-
-        @keyframes dataStream {
-            from { background-position: 0 0; }
-            to { background-position: 0 20px; }
         }
     </style>
 </head>
@@ -391,12 +344,11 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // --- GENERATIVE MESH BACKGROUND LOGIC ---
+        // --- CLEAN NETWORK BACKGROUND LOGIC ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let width, height;
 
-        // Resize canvas to fill window
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
@@ -404,27 +356,33 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Particle configuration
         const particles = [];
-        const numParticles = 120; // Increased for a denser mesh
-        const mouseDistance = 250; // How close mouse needs to be to affect connections
+        const numParticles = 100; 
+        const connectionDistance = 140; 
+        const mouseDistance = 220; 
+
         let mouse = { x: -1000, y: -1000 };
 
-        // Mouse tracking
-        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-        window.addEventListener('mouseout', () => { mouse.x = -1000; mouse.y = -1000; });
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = -1000;
+            mouse.y = -1000;
+        });
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1.5; // Slightly faster for more movement
-                this.vy = (Math.random() - 0.5) * 1.5;
-                this.radius = 2;
+                this.vx = (Math.random() - 0.5) * 0.8; 
+                this.vy = (Math.random() - 0.5) * 0.8; 
+                this.radius = 1.5;
             }
 
             update() {
-                // Bounce off edges
                 if (this.x < 0 || this.x > width) this.vx *= -1;
                 if (this.y < 0 || this.y > height) this.vy *= -1;
                 this.x += this.vx;
@@ -432,78 +390,55 @@
             }
 
             draw() {
-                // Optional: Draw the nodes (dots)
-                // ctx.beginPath();
-                // ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                // ctx.fillStyle = 'rgba(88, 166, 255, 0.4)';
-                // ctx.fill();
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(88, 166, 255, 0.6)';
+                ctx.fill();
             }
         }
 
-        for (let i = 0; i < numParticles; i++) { particles.push(new Particle()); }
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle());
+        }
 
-        // Animation loop with trail effect
         function animate() {
-            // New clear Rect with alpha creates the trail effect!
-            ctx.fillStyle = 'rgba(13, 17, 23, 0.1)'; // Matches body background color with transparency
-            ctx.fillRect(0, 0, width, height);
+            // Clean clearRect prevents messy trails
+            ctx.clearRect(0, 0, width, height);
 
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
-                
-                // --- GEOMETRIC MESH LOGIC ---
-                // For each particle, connect to two next particles in sequence to form triangles.
-                let p1 = particles[i];
-                let p2 = particles[(i + 1) % particles.length];
-                let p3 = particles[(i + 2) % particles.length];
+                particles[i].draw();
 
-                // Draw filled triangles for a dense mesh effect
-                ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.lineTo(p3.x, p3.y);
-                ctx.closePath();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Assign different colors/transparency to form the mesh depth
-                if (i % 3 === 0) {
-                    ctx.fillStyle = getMeshColor(p1, p2, p3, mouse, 'color1');
-                } else if (i % 3 === 1) {
-                    ctx.fillStyle = getMeshColor(p1, p2, p3, mouse, 'color2');
-                } else {
-                    ctx.fillStyle = getMeshColor(p1, p2, p3, mouse, 'color3');
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(88, 166, 255, ${0.15 - distance / connectionDistance * 0.15})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
                 }
-                ctx.fill();
 
-                // Optional: Draw lines for more geometric structure
-                ctx.strokeStyle = `rgba(88, 166, 255, 0.03)`;
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
+                const dxMouse = particles[i].x - mouse.x;
+                const dyMouse = particles[i].y - mouse.y;
+                const distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+
+                if (distanceMouse < mouseDistance) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(88, 166, 255, ${0.3 - distanceMouse / mouseDistance * 0.3})`;
+                    ctx.lineWidth = 1.5;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.stroke();
+                }
             }
+
             requestAnimationFrame(animate);
-        }
-
-        // Helper to adjust mesh triangle colors based on mouse proximity
-        function getMeshColor(p1, p2, p3, mouse, type) {
-            // Find center of the triangle
-            let cx = (p1.x + p2.x + p3.x) / 3;
-            let cy = (p1.y + p2.y + p3.y) / 3;
-            let dx = cx - mouse.x;
-            let dy = cy - mouse.y;
-            let distanceMouse = Math.sqrt(dx*dx + dy*dy);
-            
-            // base alpha for that color type
-            let alpha;
-            switch(type) {
-                case 'color1': alpha = 0.15; break;
-                case 'color2': alpha = 0.08; break;
-                case 'color3': alpha = 0.04; break;
-            }
-            
-            // if mouse is near, increase alpha to 'light up' the mesh area
-            if (distanceMouse < mouseDistance) {
-                alpha += (1 - distanceMouse / mouseDistance) * 0.15;
-            }
-            return `rgba(88, 166, 255, ${alpha})`;
         }
 
         animate();
