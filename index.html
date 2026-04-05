@@ -324,10 +324,13 @@
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100; // Adjusts when the element triggers
+                var elementVisible = 50; // Triggers slightly earlier
 
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
+                } else {
+                    // This else block is the new addition that undoes the animation!
+                    reveals[i].classList.remove("active"); 
                 }
             }
         }
@@ -338,5 +341,4 @@
     </script>
 
 </body>
-</html>
 </html>
