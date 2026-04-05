@@ -3,76 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Engineer Portfolio</title>
     <style>
-        /* Basic Styling */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            line-height: 1.6; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f4f4f9; 
-            color: #333; 
+        :root {
+            --bg-color: #0d1117;
+            --surface-color: #161b22;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-color: #58a6ff;
+            --border-color: #30363d;
         }
-        header { 
-            background: #24292e; /* GitHub dark grey */
-            color: #ffffff; 
-            text-align: center; 
-            padding: 3rem 0; 
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
         }
-        header h1 { margin: 0; font-size: 2.5rem; }
-        header p { font-size: 1.2rem; font-weight: 300; opacity: 0.8; }
+
+        /* Layout & Containers */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Section */
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
         
-        .container { 
-            width: 80%; 
-            max-width: 800px; 
-            margin: auto; 
-            padding: 2rem 0; 
+        header h1 {
+            font-size: 3rem;
+            margin: 0 0 0.5rem 0;
+            color: #ffffff;
+            letter-spacing: -1px;
         }
-        .section { 
-            background: #ffffff; 
-            padding: 2rem; 
-            margin-bottom: 1.5rem; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+
+        header .subtitle {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin: 0;
         }
-        a { color: #0366d6; text-decoration: none; font-weight: bold; }
-        a:hover { text-decoration: underline; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 10px; }
+
+        /* Sections */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Grid for Skills & Tech Stack */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 6px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+        }
+
+        .skill-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .skill-card ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Project & Timeline Items */
+        .item {
+            background-color: var(--surface-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .item-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Links */
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Your Name</h1>
-        <p>Software Engineer | Designer | Creator</p>
-    </header>
-
     <div class="container">
         
-        <div class="section">
-            <h2>👋 About Me</h2>
-            <p>Hi! I'm a passionate developer who loves building things for the web. I specialize in turning complex problems into beautiful, functional designs.</p>
-        </div>
+        <header>
+            <h1>[Your Name]</h1>
+            <p class="subtitle">&gt; Future Electrical & Electronic Engineer | Deep-Tech Innovator</p>
+        </header>
 
-        <div class="section">
-            <h2>🚀 Projects</h2>
-            <ul>
-                <li><strong><a href="#">Project Alpha</a>:</strong> A brief description of the tools you used and what the project solves.</li>
-                <li><strong><a href="#">Project Beta</a>:</strong> Another cool thing you built. Don't forget to link it!</li>
-            </ul>
-        </div>
+        <section id="about">
+            <h2>⚛️ About Me</h2>
+            <p>I am an aspiring engineer with a deep passion for theoretical physics, microelectronics, and integrated circuit (IC) design. My long-term vision is to bridge the gap between advanced hardware and real-world industrial applications.</p>
+            <p>I am working toward becoming a technopreneur, with the goal of founding a deep-tech startup dedicated to designing specialized microchips. I want to build smaller, more powerful computational systems to automate critical industries like agriculture and logistics in Vietnam.</p>
+        </section>
 
-        <div class="section">
-            <h2>📫 Contact</h2>
-            <p>Let's connect! You can reach me here:</p>
-            <ul>
+        <section id="education-awards">
+            <h2>🎓 Education & Achievements</h2>
+            
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Nanyang Technological University (NTU)</span>
+                    <span class="item-meta">Incoming Student</span>
+                </div>
+                <p style="margin: 0; color: var(--text-muted);">B.Eng. in Electrical and Electronic Engineering</p>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Physics Olympiad Medalist</span>
+                    <span class="item-meta">2025</span>
+                </div>
+                <ul style="margin-top: 0.5rem; color: var(--text-muted);">
+                    <li><strong>Silver Medal</strong> - International Physics Olympiad (IPhO)</li>
+                    <li><strong>Gold Medal</strong> - Asian Physics Olympiad (APhO)</li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Sakura Science Exchange Program</span>
+                    <span class="item-meta">Osaka University, Japan</span>
+                </div>
+                <p style="margin: 0; color: var(--text-muted);">Participated in international science exchange and research exposure.</p>
+            </div>
+        </section>
+
+        <section id="technical-skills">
+            <h2>⚙️ Technical Stack & Focus Areas</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Hardware & Systems</h3>
+                    <ul>
+                        <li>Analog IC Design</li>
+                        <li>Microelectronics</li>
+                        <li>CPU/PC Architecture</li>
+                        <li>Logic Gates & CPU Building</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Software & Algorithms</h3>
+                    <ul>
+                        <li>Python & C</li>
+                        <li>Data Structures</li>
+                        <li>Algorithm Optimization</li>
+                        <li>Machine Learning (From Scratch)</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Physics & Theory</h3>
+                    <ul>
+                        <li>Quantum Mechanics</li>
+                        <li>Electromagnetism</li>
+                        <li>Astrophysics</li>
+                        <li>Theoretical Physics</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects-experience">
+            <h2>🚀 Projects & Experience</h2>
+            
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Full CPU Architecture Build</span>
+                    <span class="item-meta">Project</span>
+                </div>
+                <p style="margin: 0; color: var(--text-muted);">Engineered a complete Central Processing Unit starting from foundational logic gates, working up through ALUs, memory systems, and instruction sets (via Nandgame environment).</p>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <span class="item-title">Aviation Company Internship</span>
+                    <span class="item-meta">Practical Training</span>
+                </div>
+                <p style="margin: 0; color: var(--text-muted);">Gained hands-on exposure to industrial design processes and complex machinery operations.</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>📫 Connect</h2>
+            <p>Always open to discussing quantum physics, microchip architecture, or analyzing Go (Cờ vây) board positions.</p>
+            <ul style="color: var(--text-muted);">
                 <li>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></li>
+                <li>GitHub: <a href="https://github.com/yourusername">github.com/yourusername</a></li>
                 <li>LinkedIn: <a href="#">linkedin.com/in/yourprofile</a></li>
-                <li>GitHub: <a href="https://github.com/yourusername">@yourusername</a></li>
             </ul>
-        </div>
+        </section>
+
+        <footer>
+            <p>Designed and built by [Your Name] &copy; 2026</p>
+        </footer>
 
     </div>
 
